@@ -8,11 +8,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
 public class Security  extends WebSecurityConfigurerAdapter {
+
+    PasswordEncoder encoder;
+
+    public Security(PasswordEncoder encoder) {
+        this.encoder = encoder;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -31,7 +39,7 @@ public class Security  extends WebSecurityConfigurerAdapter {
         UserDetails uday = User
                                 .builder()
                                 .username("uday")
-                                .password("password")
+                                .password(encoder.encode("password"))
                                 .roles("EMPLOYEE")
                                 .build();
         return new InMemoryUserDetailsManager(uday);
