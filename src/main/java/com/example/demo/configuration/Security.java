@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import static com.example.demo.configuration.ApplicationUserRole.ADMIN;
+import static com.example.demo.configuration.ApplicationUserRole.STUDENT;
+
 @Configuration
 @EnableWebSecurity
 public class Security  extends WebSecurityConfigurerAdapter {
@@ -25,8 +28,8 @@ public class Security  extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/","/css/*","/js/*")
-                .permitAll()
+                .antMatchers("/","/css/*","/js/*").permitAll()
+                .antMatchers("/api").hasRole(STUDENT.name())
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -40,7 +43,13 @@ public class Security  extends WebSecurityConfigurerAdapter {
                                 .builder()
                                 .username("uday")
                                 .password(encoder.encode("password"))
-                                .roles("EMPLOYEE")
+                                .roles(STUDENT.name())
+                                .build();
+        UserDetails hima = User
+                                .builder()
+                                .username("uday")
+                                .password(encoder.encode("password"))
+                                .roles(ADMIN.name())
                                 .build();
         return new InMemoryUserDetailsManager(uday);
     }
