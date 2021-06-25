@@ -6,11 +6,12 @@ import static com.example.demo.configuration.ApplicationUserPermission.*;
 
 public enum ApplicationUserRole {
    STUDENT(Set.of()),
-   ADMIN(Set.of(COURSE_WRITE,COURSE_READ,STUDENT_WRITE,STUDENT_READ));
+   ADMIN(Set.of(COURSE_WRITE,COURSE_READ,STUDENT_WRITE,STUDENT_READ)),
+   ADMINTRAINEE(Set.of(COURSE_READ,STUDENT_READ));
 
-   private final Set permissons;
+   private final Set permissions;
 
-   ApplicationUserRole(Set permissons) {
-      this.permissons = permissons;
+   ApplicationUserRole(Set permissions) {
+      this.permissions = permissions;
    }
 }
