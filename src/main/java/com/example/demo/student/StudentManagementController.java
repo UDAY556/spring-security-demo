@@ -22,7 +22,7 @@ public class StudentManagementController {
     public List<Student > getAllStudents() {
         return STUDENTS;
     }
-
+`
     @PostMapping
     @PreAuthorize("hasAuthority('student:write')")
     public void registerNewStudent(@RequestBody Student student) {
